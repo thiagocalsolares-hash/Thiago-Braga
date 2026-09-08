@@ -1,0 +1,14 @@
+from statistics import mean, median, mode
+ 
+numeros = []
+ 
+for i in range(5):
+    numero = float(input(f"Digite o {i + 1}º número: "))
+    numeros.append(numero)
+ 
+print("\nResultados:")
+print("Média:", mean(numeros))
+print("Mediana:", median(numeros))
+print("Moda:", mode(numeros))
+print("Maior valor:", max(numeros))
+print("Menor valor:", min(numeros))
