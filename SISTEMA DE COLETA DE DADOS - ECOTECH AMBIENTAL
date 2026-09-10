@@ -1,0 +1,100 @@
+# ============================================
+# SISTEMA DE COLETA DE DADOS - ECOTECH AMBIENTAL
+# ============================================
+
+print("==========================================")
+print("     ECOTECH AMBIENTAL - CADASTRO")
+print("==========================================")
+
+# Variável de controle
+quantidade = int(input("Quantos funcionários deseja cadastrar? "))
+
+# Variáveis para armazenar os resultados
+total_salarios = 0
+maiores_18 = 0
+satisfeitos = 0
+
+# Estrutura de repetição
+for i in range(1, quantidade + 1):
+
+    print("\n------------------------------------------")
+    print(f"CADASTRO DO FUNCIONÁRIO {i}")
+    print("------------------------------------------")
+
+    # Coleta de dados
+    nome = input("Nome: ")
+    idade = int(input("Idade: "))
+    setor = input("Setor: ")
+    salario = float(input("Salário (R$): "))
+    satisfacao = input("Está satisfeito com a empresa? (S/N): ").upper()
+
+    # Estrutura condicional para idade
+    if idade >= 18:
+        situacao_idade = "Maior de idade"
+        maiores_18 += 1
+    else:
+        situacao_idade = "Menor de idade"
+
+    # Estrutura condicional para classificação
+    if salario >= 3000 and satisfacao == "S":
+        classificacao = "Funcionário em situação positiva"
+
+    elif salario < 3000 and satisfacao == "N":
+        classificacao = "Funcionário que pode necessitar de atenção"
+
+    else:
+        classificacao = "Funcionário em situação intermediária"
+
+    # Contabilização
+    total_salarios += salario
+
+    if satisfacao == "S":
+        satisfeitos += 1
+
+    # Exibição dos dados cadastrados
+    print("\nDados cadastrados:")
+    print("Nome:", nome)
+    print("Idade:", idade)
+    print("Setor:", setor)
+    print(f"Salário: R$ {salario:.2f}")
+    print("Situação:", situacao_idade)
+    print("Classificação:", classificacao)
+
+
+# ============================================
+# CÁLCULO DOS RESULTADOS
+# ============================================
+
+media_salarial = total_salarios / quantidade
+
+percentual_satisfeitos = (satisfeitos / quantidade) * 100
+
+
+# ============================================
+# RELATÓRIO FINAL
+# ============================================
+
+print("\n==========================================")
+print("             RELATÓRIO FINAL")
+print("==========================================")
+
+print("Total de funcionários cadastrados:", quantidade)
+print("Funcionários maiores de 18 anos:", maiores_18)
+print(f"Média salarial: R$ {media_salarial:.2f}")
+print(f"Funcionários satisfeitos: {satisfeitos}")
+print(f"Percentual de satisfação: {percentual_satisfeitos:.1f}%")
+
+
+# Condicional para avaliação geral
+if percentual_satisfeitos >= 70:
+    print("Avaliação geral: índice de satisfação positivo.")
+
+elif percentual_satisfeitos >= 50:
+    print("Avaliação geral: índice de satisfação moderado.")
+
+else:
+    print("Avaliação geral: é necessário melhorar a satisfação dos funcionários.")
+
+
+print("==========================================")
+print("Sistema encerrado.")
