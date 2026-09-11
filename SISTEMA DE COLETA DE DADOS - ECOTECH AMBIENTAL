@@ -1,10 +1,10 @@
-# ============================================
-# SISTEMA DE COLETA DE DADOS - ECOTECH AMBIENTAL
-# ============================================
+# ========================================================
+# SISTEMA DE COLETA DE DADOS - REVERDE SOLUÇÕES AMBIENTAIS
+# ========================================================
 
-print("==========================================")
-print("     ECOTECH AMBIENTAL - CADASTRO")
-print("==========================================")
+print("===========================================")
+print("     REVERDE SOLUÇÕES AMBIENTAIS - CADASTRO")
+print("===========================================")
 
 # Variável de controle
 quantidade = int(input("Quantos funcionários deseja cadastrar? "))
