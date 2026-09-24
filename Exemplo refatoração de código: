@@ -1,0 +1,23 @@
+# Produto 1
+nome1 = "Notebook"
+preco1 = 3000.00
+desconto1 = preco1 * 0.10  # 10% de desconto
+preco_final1 = preco1 - desconto1
+print(f"Produto: {nome1} | Preço Final: R$ {preco_final1:.2f}")
+
+# Produto 2
+nome2 = "Smartphone"
+preco2 = 1500.00
+desconto2 = preco2 * 0.10  # 10% de desconto
+preco_final2 = preco2 - desconto2
+print(f"Produto: {nome2} | Preço Final: R$ {preco_final2:.2f}")
+
+# Calcular Frete Fixo
+total_compra = preco_final1 + preco_final2
+if total_compra > 2000:
+    frete = 0.0
+else:
+    frete = 50.0
+
+total_com_frete = total_compra + frete
+print(f"Total com frete: R$ {total_com_frete:.2f}")
