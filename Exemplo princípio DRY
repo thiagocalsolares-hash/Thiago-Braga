@@ -1,0 +1,20 @@
+# Produto 1
+preco_smarttv = 2500
+desconto_smarttv = preco_smarttv * 0.10
+frete_smarttv = 50
+total_smarttv = preco_smarttv - desconto_smarttv + frete_smarttv
+print(f"Total Smart TV: R$ {total_smarttv:.2f}")
+
+# Produto 2
+preco_smartphone = 1200
+desconto_smartphone = preco_smartphone * 0.05
+frete_smartphone = 30
+total_smartphone = preco_smartphone - desconto_smartphone + frete_smartphone
+print(f"Total Smartphone: R$ {total_smartphone:.2f}")
+
+# Produto 3
+preco_notebook = 4000
+desconto_notebook = preco_notebook * 0.15
+frete_notebook = 0
+total_notebook = preco_notebook - desconto_notebook + frete_notebook
+print(f"Total Notebook: R$ {total_notebook:.2f}")
