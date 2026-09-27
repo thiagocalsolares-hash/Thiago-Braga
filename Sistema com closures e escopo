@@ -1,0 +1,50 @@
+// Gerenciador de Configurações da Aplicação
+function criarGerenciadorConfig() {
+  // Variável privada protegida pelo escopo da closure
+  const config = {
+    api_url: "https://meusite.com",
+    timeout: 5000,
+    tema: "dark"
+  };
+
+  // Retorna um objeto com os métodos públicos de acesso
+  return {
+    // Retorna o valor de uma chave específica
+    get: function(chave) {
+      return config[chave];
+    },
+    
+    // Altera ou adiciona uma configuração de forma controlada
+    set: function(chave, valor) {
+      // Exemplo de validação simples
+      if (chave === "timeout" && typeof valor !== "number") {
+        console.error("Erro: O timeout precisa ser um número.");
+        return;
+      }
+      config[chave] = valor;
+    },
+    
+    // Retorna uma cópia para evitar que o objeto original seja modificado por referência
+    listarTodas: function() {
+      return { ...config };
+    }
+  };
+}
+
+// --- Demonstração de Uso ---
+
+const appConfig = criarGerenciadorConfig();
+
+// 1. Lendo configurações
+console.log(appConfig.get("tema")); // Saída: 'dark'
+
+// 2. Modificando configurações através do método correto
+appConfig.set("tema", "light");
+console.log(appConfig.get("tema")); // Saída: 'light'
+
+// 3. Tentando quebrar a validação do timeout
+appConfig.set("timeout", "dez segundos"); // Saída: Erro: O timeout precisa ser um número.
+
+// 4. Segurança: O objeto real não está acessível no escopo global
+console.log(typeof config); // Saída: 'undefined'
+console.log(appConfig.config); // Saída: undefined (não existe essa propriedade pública)
