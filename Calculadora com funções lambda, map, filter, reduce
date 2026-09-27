@@ -1,0 +1,59 @@
+# 1. Definindo operações básicas com lambda
+operacoes = {
+    'somar': lambda x, y: x + y,
+    'subtrair': lambda x, y: x - y,
+    'multiplicar': lambda x, y: x * y,
+    'dividir': lambda x, y: x / y if y != 0 else 'Erro: Divisão por zero'
+}
+
+# Exemplo de uso das operações básicas
+num1 = 10
+num2 = 5
+
+print(f"Soma ({num1}, {num2}): {operacoes['somar'](num1, num2)}")
+print(f"Subtração ({num1}, {num2}): {operacoes['subtrair'](num1, num2)}")
+print(f"Multiplicação ({num1}, {num2}): {operacoes['multiplicar'](num1, num2)}")
+print(f"Divisão ({num1}, {num2}): {operacoes['dividir'](num1, num2)}")
+print(f"Divisão ({num1}, 0): {operacoes['dividir'](num1, 0)}")
+
+# 2. Usando map com lambda
+lista_numeros = [1, 2, 3, 4, 5]
+
+# Quadrado de cada número
+quadrados = list(map(lambda x: x ** 2, lista_numeros))
+print(f"Lista original: {lista_numeros}")
+print(f"Quadrados (map): {quadrados}")
+
+# Adicionar 10 a cada número
+adicionar_dez = list(map(lambda x: x + 10, lista_numeros))
+print(f"Adicionar 10 (map): {adicionar_dez}")
+
+# 3. Usando filter com lambda
+lista_numeros_maior = [10, 25, 7, 12, 30, 8]
+
+# Filtrar números pares
+pares = list(filter(lambda x: x % 2 == 0, lista_numeros_maior))
+print(f"Lista original: {lista_numeros_maior}")
+print(f"Números pares (filter): {pares}")
+
+# Filtrar números maiores que 15
+maiores_que_quinze = list(filter(lambda x: x > 15, lista_numeros_maior))
+print(f"Números maiores que 15 (filter): {maiores_que_quinze}")
+
+# 4. Usando reduce com lambda
+from functools import reduce
+
+lista_para_reduzir = [1, 2, 3, 4, 5]
+
+# Soma de todos os números
+soma_total = reduce(lambda x, y: x + y, lista_para_reduzir)
+print(f"Lista original: {lista_para_reduzir}")
+print(f"Soma total (reduce): {soma_total}")
+
+# Produto de todos os números
+produto_total = reduce(lambda x, y: x * y, lista_para_reduzir)
+print(f"Produto total (reduce): {produto_total}")
+
+# Encontrar o maior número
+maior_numero = reduce(lambda x, y: x if x > y else y, lista_para_reduzir)
+print(f"Maior número (reduce): {maior_numero}")
