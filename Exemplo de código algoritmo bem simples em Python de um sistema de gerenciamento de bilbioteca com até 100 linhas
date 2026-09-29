@@ -1,0 +1,90 @@
+1. livro.py (Módulo do Modelo)
+Este módulo é responsável estritamente pela representação e dados de um livro individual.
+class Livro:
+    def __init__(self, titulo: str, autor: str):
+        self.titulo = titulo
+        self.autor = autor
+        self.disponivel = True
+
+    def __str__(self) -> str:
+        status = "Disponível" if self.disponivel else "Emprestado"
+        return f"'{self.titulo}' - {self.autor} ({status})"
+
+2. biblioteca.py (Módulo de Lógica de Negócios)
+Este módulo gerencia o conjunto de livros e dita as regras de como a biblioteca opera. Note que ele importa a classe Livro do módulo anterior.
+from livro import Livro
+
+class Biblioteca:
+    def __init__(self):
+        self.acervo = []
+
+    def adicionar_livro(self, livro: Livro):
+        self.acervo.append(livro)
+        print(f"Livro '{livro.titulo}' adicionado com sucesso!")
+
+    def listar_livros(self):
+        if not self.acervo:
+            print("A biblioteca está vazia.")
+            return
+        print("\n--- Catálogo da Biblioteca ---")
+        for livro in self.acervo:
+            print(livro)
+
+    def emprestar_livro(self, titulo: str):
+        for livro in self.acervo:
+            if livro.titulo.lower() == titulo.lower():
+                if livro.disponivel:
+                    livro.disponivel = False
+                    print(f"Você pegou '{livro.titulo}' emprestado!")
+                    return
+                print(f"Desculpe, '{livro.titulo}' já está emprestado.")
+                return
+        print(f"Livro '{titulo}' não encontrado no acervo.")
+
+    def devolver_livro(self, titulo: str):
+        for livro in self.acervo:
+            if livro.titulo.lower() == titulo.lower():
+                if not livro.disponivel:
+                    livro.disponivel = True
+                    print(f"Obrigado por devolver '{livro.titulo}'!")
+                    return
+                print(f"Este livro já estava na biblioteca.")
+                return
+        print(f"Livro '{titulo}' não pertence a esta biblioteca.")
+
+3. main.py (Ponto de Entrada do Aplicativo)
+Este é o script principal que você executará. Ele serve para orquestrar o fluxo, importando as peças necessárias e rodando as simulações (ou interface).
+
+from livro import Livro
+from biblioteca import Biblioteca
+
+def rodar_simulacao():
+    # Inicializa o sistema da biblioteca
+    biblioteca = Biblioteca()
+
+    # 1. Cadastrando livros
+    livro1 = Livro("O Alquimista", "Paulo Coelho")
+    livro2 = Livro("Dom Casmurro", "Machado de Assis")
+    
+    biblioteca.adicionar_livro(livro1)
+    biblioteca.adicionar_livro(livro2)
+
+    # 2. Listando catálogo
+    biblioteca.listar_livros()
+
+    # 3. Fluxo de empréstimo e devolução
+    print("\n--- Operações de Empréstimo ---")
+    biblioteca.emprestar_livro("O Alquimista")
+    biblioteca.listar_livros()
+
+    print("\n--- Operações de Devolução ---")
+    biblioteca.devolver_livro("O Alquimista")
+    biblioteca.listar_livros()
+
+if __name__ == "__main__":
+    rodar_simulacao()
+
+Como rodar este projeto:
+1. Certifique-se de que os três arquivos (livro.py, biblioteca.py e main.py) estão salvos exatamente com esses nomes dentro da mesma pasta.
+2. Abra o seu terminal nessa pasta e execute o comando:bash
+python main.py
