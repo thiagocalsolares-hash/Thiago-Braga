@@ -1,0 +1,67 @@
+# --- Funções da Calculadora Principal ---
+def ler_lista_numeros():
+    entrada = input("Digite os números separados por espaço: ")
+    return [float(x) for x in entrada.split()]
+
+def menu():
+    while True:
+        print("\n=== CALCULADORA CIENTÍFICA MODULAR ===")
+        print("1. Operações Básicas")
+        print("2. Operações Trigonométricas (Ângulos em Graus)")
+        print("3. Operações Estatísticas")
+        print("4. Sair")
+
+        opcao = input("Escolha uma categoria: ")
+
+        try:
+            if opcao == '1':
+                print("\n[Básicas] 1: Soma | 2: Subtração | 3: Multiplicação | 4: Divisão | 5: Potência | 6: Raiz Quadrada")
+                op = input("Escolha a operação: ")
+
+                if op in ['1', '2', '3', '4', '5']:
+                    n1 = float(input("Primeiro número: "))
+                    n2 = float(input("Segundo número: "))
+                    if op == '1': print(f"Resultado: {somar(n1, n2)}")
+                    elif op == '2': print(f"Resultado: {subtrair(n1, n2)}")
+                    elif op == '3': print(f"Resultado: {multiplicar(n1, n2)}")
+                    elif op == '4': print(f"Resultado: {dividir(n1, n2)}")
+                    elif op == '5': print(f"Resultado: {potencia(n1, n2)}")
+                elif op == '6':
+                    n = float(input("Digite o número: "))
+                    print(f"Resultado: {raiz_quadrada(n)}")
+                else:
+                    print("Operação inválida.")
+
+            elif opcao == '2':
+                print("\n[Trigonométricas] 1: Seno | 2: Cosseno | 3: Tangente")
+                op = input("Escolha a operação: ")
+                angulo = float(input("Digite o ângulo em graus: "))
+
+                if op == '1': print(f"Resultado: {seno(angulo)}")
+                elif op == '2': print(f"Resultado: {cosseno(angulo)}")
+                elif op == '3': print(f"Resultado: {tangente(angulo)}")
+                else: print("Operação inválida.")
+
+            elif opcao == '3':
+                print("\n[Estatísticas] 1: Média | 2: Mediana | 3: Desvio Padrão")
+                op = input("Escolha a operação: ")
+                valores = ler_lista_numeros()
+
+                if op == '1': print(f"Resultado: {calcular_media(valores)}")
+                elif op == '2': print(f"Resultado: {calcular_mediana(valores)}")
+                elif op == '3': print(f"Resultado: {calcular_desvio_padrao(valores)}")
+                else: print("Operação inválida.")
+
+            elif opcao == '4':
+                print("Encerrando a calculadora. Até logo!")
+                break
+            else:
+                print("Opção inválida. Tente novamente.")
+
+        except ValueError as e:
+            print(f"\nErro de Entrada: {e}")
+        except Exception as e:
+            print(f"\nOcorreu um erro inesperado: {e}")
+
+if __name__ == "__main__":
+    menu()
