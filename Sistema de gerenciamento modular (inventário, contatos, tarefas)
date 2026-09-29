@@ -1,0 +1,189 @@
+# =====================================================================
+# 1. CAMADA DE DADOS / REPOSITÓRIO (Data Access Layer)
+# Responsável estritamente pelo armazenamento e recuperação dos dados.
+# =====================================================================
+
+class RepositorioMemoria:
+    def __init__(self):
+        self.inventario = []
+        self.contatos = []
+        self.tarefas = []
+
+    # Métodos de Inventário
+    def salvar_produto(self, produto):
+        self.inventario.append(produto)
+
+    def listar_produtos(self):
+        return self.inventario
+
+    # Métodos de Contatos
+    def salvar_contato(self, contato):
+        self.contatos.append(contato)
+
+    def listar_contatos(self):
+        return self.contatos
+
+    # Métodos de Tarefas
+    def salvar_tarefa(self, tarefa):
+        self.tarefas.append(tarefa)
+
+    def listar_tarefas(self):
+        return self.tarefas
+
+
+# =====================================================================
+# 2. CAMADA DE NEGÓCIO (Business Logic Layer / Services)
+# Aplica as regras de negócio, validações e processa os dados.
+# =====================================================================
+
+class GerenciadorService:
+    def __init__(self, repositorio):
+        self.repo = repositorio
+
+    # --- Lógica de Inventário ---
+    def adicionar_produto(self, nome, quantidade, preco):
+        if not nome.strip():
+            return "Erro: O nome do produto não pode ser vazio."
+        if quantidade < 0 or preco <= 0:
+            return "Erro: Quantidade ou preço inválidos."
+        
+        produto = {"nome": nome, "quantidade": quantidade, "preco": preco}
+        self.repo.salvar_produto(produto)
+        return "Produto adicionado com sucesso!"
+
+    def obter_inventario(self):
+        return self.repo.listar_produtos()
+
+    # --- Lógica de Contatos ---
+    def adicionar_contato(self, nome, telefone):
+        if not nome.strip() or not telefone.strip():
+            return "Erro: Nome e telefone são obrigatórios."
+        
+        contato = {"nome": nome, "telefone": telefone}
+        self.repo.salvar_contato(contato)
+        return "Contato adicionado com sucesso!"
+
+    def obter_contatos(self):
+        return self.repo.listar_contatos()
+
+    # --- Lógica de Tarefas ---
+    def adicionar_tarefa(self, descricao):
+        if not descricao.strip():
+            return "Erro: A descrição da tarefa não pode ser vazia."
+        
+        tarefa = {"descricao": descricao, "status": "Pendente"}
+        self.repo.salvar_tarefa(tarefa)
+        return "Tarefa adicionada com sucesso!"
+
+    def obter_tarefas(self):
+        return self.repo.listar_tarefas()
+
+
+# =====================================================================
+# 3. CAMADA DE APRESENTAÇÃO (Presentation Layer / User Interface)
+# Responsável pela interação com o usuário através do console.
+# =====================================================================
+
+class MenuConsole:
+    def __init__(self, service):
+        self.service = service
+
+    def exibir_menu_principal(self):
+        while True:
+            print("\n=== SISTEMA DE GERENCIAMENTO INTERNO ===")
+            print("1. Gerenciar Inventário")
+            print("2. Gerenciar Contatos")
+            print("3. Gerenciar Tarefas")
+            print("0. Sair")
+            
+            opcao = input("Escolha uma opção: ")
+            
+            if opcao == "1":
+                self.menu_inventario()
+            elif opcao == "2":
+                self.menu_contatos()
+            elif opcao == "3":
+                self.menu_tarefas()
+            elif opcao == "0":
+                print("Encerrando o sistema. Até logo!")
+                break
+            else:
+                print("Opção inválida. Tente novamente.")
+
+    # Submenu: Inventário
+    def menu_inventario(self):
+        print("\n--- INVENTÁRIO ---")
+        print("1. Adicionar Produto")
+        print("2. Listar Produtos")
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            nome = input("Nome do produto: ")
+            try:
+                qtd = int(input("Quantidade: "))
+                preco = float(input("Preço: R$ "))
+                resultado = self.service.add_produto(nome, qtd, preco) # Chamando a lógica
+                print(resultado)
+            except ValueError:
+                print("Erro: Digite valores numéricos válidos para quantidade e preço.")
+        elif opcao == "2":
+            produtos = self.service.obter_inventario()
+            if not produtos:
+                print("Inventário vazio.")
+            for p in produtos:
+                print(f"- {p['nome']} | Qtd: {p['quantidade']} | Preço: R$ {p['preco']:.2f}")
+
+    # Submenu: Contatos
+    def menu_contatos(self):
+        print("\n--- CONTATOS ---")
+        print("1. Adicionar Contato")
+        print("2. Listar Contatos")
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            nome = input("Nome do contato: ")
+            telefone = input("Telefone: ")
+            resultado = self.service.adicionar_contato(nome, telefone)
+            print(resultado)
+        elif opcao == "2":
+            contatos = self.service.obter_contatos()
+            if not contatos:
+                print("Nenhum contato cadastrado.")
+            for c in contatos:
+                print(f"- {c['nome']}: {c['telefone']}")
+
+    # Submenu: Tarefas
+    def menu_tarefas(self):
+        print("\n--- TAREFAS ---")
+        print("1. Adicionar Tarefa")
+        print("2. Listar Tarefas")
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            descricao = input("Descrição da tarefa: ")
+            resultado = self.service.adicionar_tarefa(descricao)
+            print(resultado)
+        elif opcao == "2":
+            tarefas = self.service.obter_tarefas()
+            if not tarefas:
+                print("Nenhuma tarefa cadastrada.")
+            for t in tarefas:
+                print(f"[{t['status']}] {t['descricao']}")
+
+
+# =====================================================================
+# INICIALIZAÇÃO DO SISTEMA (Dependency Injection)
+# Onde as camadas são conectadas e o sistema começa a rodar.
+# =====================================================================
+if __name__ == "__main__":
+    # 1. Cria a base de dados em memória
+    repositorio = RepositorioMemoria()
+    
+    # 2. Injeta o repositório no serviço de negócios
+    servico = GerenciadorService(repositorio)
+    
+    # 3. Injeta o serviço na interface visual do usuário
+    interface = MenuConsole(servico)
+    
+    # 4. Inicia o programa
+    interface.exibir_menu_principal()
