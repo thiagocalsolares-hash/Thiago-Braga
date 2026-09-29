@@ -12,7 +12,6 @@ class Livro:
 
 2. biblioteca.py (Módulo de Lógica de Negócios)
 Este módulo gerencia o conjunto de livros e dita as regras de como a biblioteca opera. Note que ele importa a classe Livro do módulo anterior.
-from livro import Livro
 
 class Biblioteca:
     def __init__(self):
