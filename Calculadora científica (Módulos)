@@ -88,8 +88,8 @@ def menu():
                     elif op == '4': print(f"Resultado: {dividir(n1, n2)}")
                     elif op == '5': print(f"Resultado: {potencia(n1, n2)}")
                 elif op == '6':
-                    n = float(input("Digite o número: "))
-                    print(f"Resultado: {raiz_quadrada(n)}")
+                    numero = float(input("Digite o número para a raiz quadrada: ")) # Pedir apenas um número
+                    print(f"Resultado: {raiz_quadrada(numero)}")
                 else:
                     print("Operação inválida.")
 
