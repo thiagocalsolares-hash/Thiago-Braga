@@ -122,7 +122,7 @@ class MenuConsole:
             try:
                 qtd = int(input("Quantidade: "))
                 preco = float(input("Preço: R$ "))
-                resultado = self.service.add_produto(nome, qtd, preco) # Chamando a lógica
+                resultado = self.service.adicionar_produto(nome, qtd, preco) # Chamando a lógica
                 print(resultado)
             except ValueError:
                 print("Erro: Digite valores numéricos válidos para quantidade e preço.")
