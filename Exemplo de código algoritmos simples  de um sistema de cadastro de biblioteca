@@ -1,0 +1,72 @@
+class Livro:
+    def __init__(self, titulo, autor):
+        self.titulo = titulo
+        self.autor = autor
+        self.disponivel = True
+
+    def __str__(self):
+        status = "Disponível" if self.disponivel else "Emprestado"
+        return f"'{self.titulo}' - {self.autor} ({status})"
+
+
+class Biblioteca:
+    def __init__(self):
+        self.acervo = []
+
+    def adicionar_livro(self, livro):
+        self.acervo.append(livro)
+        print(f"Livro '{livro.titulo}' adicionado com sucesso!")
+
+    def listar_livros(self):
+        if not self.acervo:
+            print("A biblioteca está vazia.")
+            return
+        print("\n--- Catálogo da Biblioteca ---")
+        for livro in self.acervo:
+            print(livro)
+
+    def emprestar_livro(self, titulo):
+        for livro in self.acervo:
+            if livro.titulo.lower() == titulo.lower():
+                if livro.disponivel:
+                    livro.disponivel = False
+                    print(f"Você pegou '{livro.titulo}' emprestado!")
+                    return
+                print(f"Desculpe, '{livro.titulo}' já está emprestado.")
+                return
+        print(f"Livro '{titulo}' não encontrado no acervo.")
+
+    def devolver_livro(self, titulo):
+        for livro in self.acervo:
+            if livro.titulo.lower() == titulo.lower():
+                if not livro.disponivel:
+                    livro.disponivel = True
+                    print(f"Obrigado por devolver '{livro.titulo}'!")
+                    return
+                print(f"Este livro já estava na biblioteca.")
+                return
+        print(f"Livro '{titulo}' não pertence a esta biblioteca.")
+
+
+# --- Testando o Sistema ---
+if __name__ == "__main__":
+    biblioteca = Biblioteca()
+
+    # 1. Cadastrando livros
+    biblioteca.adicionar_livro(Livro("O Alquimista", "Paulo Coelho"))
+    biblioteca.adicionar_livro(Livro("Dom Casmurro", "Machado de Assis"))
+
+    # 2. Listando o catálogo inicial
+    biblioteca.listar_livros()
+
+    # 3. Simulando um empréstimo
+    print("\n--- Tentando pegar emprestado ---")
+    biblioteca.emprestar_livro("O Alquimista")
+    
+    # 4. Listando novamente para ver a mudança de status
+    biblioteca.listar_livros()
+
+    # 5. Simulando a devolução
+    print("\n--- Devolvendo o livro ---")
+    biblioteca.devolver_livro("O Alquimista")
+    biblioteca.listar_livros()
