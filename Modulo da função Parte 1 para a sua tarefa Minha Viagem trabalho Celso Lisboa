@@ -1,0 +1,57 @@
+# executor_tarefa.py
+# Script principal para executar o módulo minha_viagem
+
+from minha_viagem import (
+    escolher_local_para_viagem,
+    planejamento_para_viagem
+)
+
+
+# Dados disponíveis para a viagem
+
+regioes = [
+    "natal",
+    "pernambuco",
+    "jericoacoara"
+]
+
+tipos_pousada = [
+    "com café da manhã",
+    "com restaurante",
+    "com passeios inclusos"
+]
+
+restaurantes = [
+    "simples",
+    "churrascaria",
+    "frutos do mar"
+]
+
+passeios = [
+    "city tour",
+    "mergulho",
+    "quadriciclo"
+]
+
+
+# Verificação das opções disponíveis
+
+if escolher_local_para_viagem(
+    regioes,
+    tipos_pousada,
+    restaurantes,
+    passeios
+):
+
+    resultado = planejamento_para_viagem(
+        "jericoacoara",
+        "com café da manhã",
+        "churrascaria",
+        ["mergulho", "quadriciclo"]
+    )
+
+    print(resultado)
+
+else:
+
+    print("Escolha outro lugar para a viagem.")
