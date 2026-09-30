@@ -1,0 +1,52 @@
+meu_tabuleiro = [
+    ['X', 'O', ' '],
+    [' ', 'X', 'O'],
+    [' ', ' ', 'X']
+]
+
+meu_jogador = 'X'
+
+def jogo_da_velha(tabuleiro, jogador):
+    def verificar_vitoria(tabuleiro, jogador_atual):
+        """ Verifica se o jogador venceu nas linhas, colunas ou diagonais."""
+        # Verificar linhas
+        for linha in tabuleiro:
+            if all([celula == jogador_atual for celula in linha]):
+                return True
+
+        # Verificar colunas
+        for col in range(3):
+            if all([tabuleiro[row][col] == jogador_atual for row in range(3)]):
+                return True
+
+        # Verificar diagonais
+        if (tabuleiro[0][0] == jogador_atual and tabuleiro[1][1] == jogador_atual and tabuleiro[2][2] == jogador_atual) or \
+           (tabuleiro[0][2] == jogador_atual and tabuleiro[1][1] == jogador_atual and tabuleiro[2][0] == jogador_atual):
+            return True
+
+        return False
+
+    def tabuleiro_cheio(tabuleiro):
+        """ Verifica se todas as células do tabuleiro estão preenchidas."""
+        for linha in tabuleiro:
+            for celula in linha:
+                if celula == ' ':
+                    return False
+        return True
+
+    # Lógica principal do jogo da velha
+    print(f"Iniciando jogo com o tabuleiro: {tabuleiro}")
+    print(f"Jogador atual: {jogador}")
+
+    if verificar_vitoria(tabuleiro, jogador):
+        print(f"O jogador {jogador} venceu!")
+        return "Vitória"
+    elif tabuleiro_cheio(tabuleiro):
+        print("O tabuleiro está cheio! Empate!")
+        return "Empate"
+    else:
+        print("O jogo continua. Nenhuma vitória ou empate ainda.")
+        # Aqui entraria a lógica para a próxima jogada
+        return "Continua"
+
+jogo_da_velha(meu_tabuleiro, meu_jogador)
