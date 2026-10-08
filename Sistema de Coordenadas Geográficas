@@ -1,0 +1,150 @@
+import math
+
+# Sistema de coordenadas geográficas
+# Cada cidade possui uma tupla (latitude, longitude)
+# e uma região do Brasil.
+
+cidades = {
+    "Rio de Janeiro": {
+        "coordenadas": (-22.9068, -43.1729),
+        "regiao": "Sudeste"
+    },
+    "Sao Paulo": {
+        "coordenadas": (-23.5505, -46.6333),
+        "regiao": "Sudeste"
+    },
+    "Belo Horizonte": {
+        "coordenadas": (-19.9167, -43.9345),
+        "regiao": "Sudeste"
+    },
+    "Salvador": {
+        "coordenadas": (-12.9777, -38.5016),
+        "regiao": "Nordeste"
+    },
+    "Recife": {
+        "coordenadas": (-8.0476, -34.8770),
+        "regiao": "Nordeste"
+    },
+    "Curitiba": {
+        "coordenadas": (-25.4284, -49.2733),
+        "regiao": "Sul"
+    },
+    "Porto Alegre": {
+        "coordenadas": (-30.0346, -51.2177),
+        "regiao": "Sul"
+    },
+    "Brasilia": {
+        "coordenadas": (-15.7939, -47.8828),
+        "regiao": "Centro-Oeste"
+    },
+    "Manaus": {
+        "coordenadas": (-3.1190, -60.0217),
+        "regiao": "Norte"
+    }
+}
+
+
+# 1. Calcular a distância entre duas cidades
+def calcular_distancia(cidade1, cidade2):
+    if cidade1 not in cidades or cidade2 not in cidades:
+        return None
+
+    lat1, lon1 = cidades[cidade1]["coordenadas"]
+    lat2, lon2 = cidades[cidade2]["coordenadas"]
+
+    # Converter graus para radianos
+    lat1, lon1, lat2, lon2 = map(
+        math.radians, [lat1, lon1, lat2, lon2]
+    )
+
+    # Fórmula de Haversine
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+
+    a = (
+        math.sin(dlat / 2) ** 2
+        + math.cos(lat1) * math.cos(lat2)
+        * math.sin(dlon / 2) ** 2
+    )
+
+    a = max(0, min(1, a))
+    angulo = 2 * math.asin(math.sqrt(a))
+
+    raio_terra = 6371  # Raio médio da Terra em quilômetros
+
+    return raio_terra * angulo
+
+
+# 2. Encontrar cidades próximas de uma cidade de referência
+def encontrar_cidades_proximas(cidade_referencia, limite_km):
+    if cidade_referencia not in cidades:
+        return []
+
+    proximas = []
+
+    for cidade in cidades:
+        if cidade != cidade_referencia:
+            distancia = calcular_distancia(
+                cidade_referencia, cidade
+            )
+
+            if distancia <= limite_km:
+                proximas.append((cidade, distancia))
+
+    return sorted(proximas, key=lambda item: item[1])
+
+
+# 3. Agrupar cidades por região
+def agrupar_por_regiao():
+    regioes = {}
+
+    for cidade, dados in cidades.items():
+        regiao = dados["regiao"]
+
+        if regiao not in regioes:
+            regioes[regiao] = []
+
+        regioes[regiao].append(cidade)
+
+    return regioes
+
+
+# 4. Exibir os resultados
+if __name__ == "__main__":
+
+    print("=== SISTEMA DE COORDENADAS GEOGRAFICAS ===")
+
+    cidade1 = "Rio de Janeiro"
+    cidade2 = "Sao Paulo"
+
+    distancia = calcular_distancia(cidade1, cidade2)
+
+    if distancia is not None:
+        print(
+            f"\nDistancia entre {cidade1} e {cidade2}: "
+            f"{distancia:.2f} km"
+        )
+    else:
+        print("\nUma das cidades nao foi encontrada.")
+
+    referencia = "Rio de Janeiro"
+    limite = 500
+
+    print(f"\nCidades a ate {limite} km de {referencia}:")
+
+    proximas = encontrar_cidades_proximas(referencia, limite)
+
+    if proximas:
+        for cidade, distancia in proximas:
+            print(f"- {cidade}: {distancia:.2f} km")
+    else:
+        print("Nenhuma cidade encontrada nesse limite.")
+
+    print("\n=== CIDADES AGRUPADAS POR REGIAO ===")
+
+    grupos = agrupar_por_regiao()
+
+    for regiao, lista_cidades in sorted(grupos.items()):
+        print(f"\n{regiao}:")
+        for cidade in sorted(lista_cidades):
+            print(f"- {cidade}")
