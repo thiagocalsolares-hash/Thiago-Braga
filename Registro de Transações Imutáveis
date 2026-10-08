@@ -1,0 +1,89 @@
+from collections import namedtuple
+from datetime import datetime
+
+# Criação da estrutura imutável da transação
+Transacao = namedtuple(
+    "Transacao",
+    ["id", "tipo", "valor", "descricao", "data"]
+)
+
+# Lista para armazenar as transações
+transacoes = []
+
+def registrar_transacao(id, tipo, valor, descricao):
+    """Registra uma nova transação financeira."""
+
+    if tipo not in ("Entrada", "Saída"):
+        print("Erro: tipo deve ser Entrada ou Saída.")
+        return
+
+    if valor <= 0:
+        print("Erro: o valor deve ser maior que zero.")
+        return
+
+    data = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+
+    nova_transacao = Transacao(
+        id, tipo, valor, descricao, data
+    )
+
+    transacoes.append(nova_transacao)
+    print("Transação registrada com sucesso!")
+
+
+def listar_transacoes():
+    """Exibe todas as transações registradas."""
+
+    if not transacoes:
+        print("Nenhuma transação registrada.")
+        return
+
+    for t in transacoes:
+        print("-" * 40)
+        print(f"ID: {t.id}")
+        print(f"Tipo: {t.tipo}")
+        print(f"Valor: R$ {t.valor:.2f}")
+        print(f"Descrição: {t.descricao}")
+        print(f"Data: {t.data}")
+
+
+def calcular_saldo():
+    """Calcula o saldo com base nas transações."""
+
+    saldo = 0
+
+    for t in transacoes:
+        if t.tipo == "Entrada":
+            saldo += t.valor
+        else:
+            saldo -= t.valor
+
+    print(f"Saldo atual: R$ {saldo:.2f}")
+
+
+# Exemplo de utilização do sistema
+registrar_transacao(
+    1, "Entrada", 2500.00, "Salário"
+)
+
+registrar_transacao(
+    2, "Saída", 350.00, "Pagamento de conta"
+)
+
+registrar_transacao(
+    3, "Saída", 120.00, "Compra de mercado"
+)
+
+print("\n--- HISTÓRICO DE TRANSAÇÕES ---")
+listar_transacoes()
+
+print("\n--- SALDO FINANCEIRO ---")
+calcular_saldo()
+
+# Teste de imutabilidade
+print("\n--- TESTE DE IMUTABILIDADE ---")
+
+try:
+    transacoes[0].valor = 3000.00
+except AttributeError:
+    print("Alteração impedida: a transação é imutável.")
