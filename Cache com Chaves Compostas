@@ -1,0 +1,60 @@
+# Sistema de cache com chaves compostas
+# Utilizando tuplas para armazenar resultados de cálculos
+
+cache = {}
+
+
+def multiplicar_matrizes(matriz_a, matriz_b):
+    """Multiplica duas matrizes e utiliza cache para evitar recálculos."""
+
+    # Converte as matrizes em tuplas para criar uma chave imutável
+    chave = (tuple(map(tuple, matriz_a)),
+             tuple(map(tuple, matriz_b)))
+
+    # Verifica se o resultado já existe no cache
+    if chave in cache:
+        print("Resultado encontrado no cache!")
+        return cache[chave]
+
+    print("Calculando a multiplicação das matrizes...")
+
+    # Verifica se as dimensões são compatíveis
+    if len(matriz_a[0]) != len(matriz_b):
+        raise ValueError("As dimensões das matrizes são incompatíveis.")
+
+    # Realiza a multiplicação das matrizes
+    resultado = [
+        [
+            sum(matriz_a[i][k] * matriz_b[k][j]
+                for k in range(len(matriz_b)))
+            for j in range(len(matriz_b[0]))
+        ]
+        for i in range(len(matriz_a))
+    ]
+
+    # Armazena o resultado utilizando a chave composta
+    cache[chave] = resultado
+
+    return resultado
+
+
+# Matrizes de exemplo
+matriz_a = [
+    [1, 2],
+    [3, 4]
+]
+
+matriz_b = [
+    [5, 6],
+    [7, 8]
+]
+
+# Primeira execução: realiza o cálculo
+resultado1 = multiplicar_matrizes(matriz_a, matriz_b)
+print("Resultado:", resultado1)
+
+print()
+
+# Segunda execução: reutiliza o resultado armazenado
+resultado2 = multiplicar_matrizes(matriz_a, matriz_b)
+print("Resultado:", resultado2)
