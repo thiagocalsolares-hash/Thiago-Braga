@@ -1,0 +1,51 @@
+# 6. Calcula o faturamento total por produto
+def calcular_faturamento_por_produto(lista_registros):
+    faturamento_produtos = {}
+
+    for registro in lista_registros:
+        codigo_produto = registro[1]
+        valor_venda = calcular_valor_total_venda(registro)
+
+        if codigo_produto in faturamento_produtos:
+            faturamento_produtos[codigo_produto] += valor_venda
+        else:
+            faturamento_produtos[codigo_produto] = valor_venda
+
+    return faturamento_produtos
+
+
+# 7. Calcula a quantidade total vendida por região
+def calcular_quantidade_vendida_por_regiao(lista_registros):
+    quantidade_regioes = {}
+
+    for registro in lista_registros:
+        regiao = registro[2]
+        quantidade = registro[3]
+
+        if regiao in quantidade_regioes:
+            quantidade_regioes[regiao] += quantidade
+        else:
+            quantidade_regioes[regiao] = quantidade
+
+    return quantidade_regioes
+
+
+# 8. Testes das novas funções
+print("\n===== FATURAMENTO POR PRODUTO =====")
+
+faturamento_produtos = calcular_faturamento_por_produto(
+    registros_vendas
+)
+
+for produto, valor in faturamento_produtos.items():
+    print(f"{produto}: R$ {valor:.2f}")
+
+
+print("\n===== QUANTIDADE VENDIDA POR REGIÃO =====")
+
+quantidade_regioes = calcular_quantidade_vendida_por_regiao(
+    registros_vendas
+)
+
+for regiao, quantidade in quantidade_regioes.items():
+    print(f"{regiao}: {quantidade} itens")
