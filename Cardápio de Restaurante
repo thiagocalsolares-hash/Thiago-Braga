@@ -1,0 +1,47 @@
+# Lista de dicionários que representa o cardápio
+cardapio = [
+    {
+        "nome_prato": "Pizza de Calabresa",
+        "preco": 45.00,
+        "ingredientes": ["massa", "queijo", "calabresa", "cebola"]
+    },
+    {
+        "nome_prato": "Hambúrguer Artesanal",
+        "preco": 30.00,
+        "ingredientes": ["pão", "carne", "queijo", "alface", "tomate"]
+    },
+    {
+        "nome_prato": "Lasanha à Bolonhesa",
+        "preco": 38.00,
+        "ingredientes": ["massa", "carne moída", "queijo", "molho de tomate"]
+    },
+    {
+        "nome_prato": "Salada Caesar",
+        "preco": 22.00,
+        "ingredientes": ["alface", "frango", "croutons", "molho Caesar"]
+    }
+]
+
+
+# Função para buscar pratos pelo nome
+def buscar_prato(nome):
+    encontrado = False
+
+    for prato in cardapio:
+        if nome.lower() in prato["nome_prato"].lower():
+            print("\nPrato encontrado!")
+            print("Nome:", prato["nome_prato"])
+            print(f"Preço: R$ {prato['preco']:.2f}")
+            print("Ingredientes:", ", ".join(prato["ingredientes"]))
+            encontrado = True
+
+    if not encontrado:
+        print("\nNenhum prato encontrado com esse nome.")
+
+
+# Programa principal
+print("=== CARDÁPIO DO RESTAURANTE ===")
+
+nome_busca = input("Digite o nome do prato que deseja buscar: ")
+
+buscar_prato(nome_busca)
