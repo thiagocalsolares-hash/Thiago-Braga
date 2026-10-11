@@ -1,0 +1,123 @@
+# ==========================================
+# SISTEMA DE CARRINHO DE COMPRAS
+# ==========================================
+
+# Catálogo de produtos da loja
+catalogo_loja = [
+    {"codigo_produto": "PROD001", "nome": "Caneta Azul", "preco": 2.50},
+    {"codigo_produto": "PROD002", "nome": "Caderno", "preco": 15.00},
+    {"codigo_produto": "PROD003", "nome": "Lápis", "preco": 1.50},
+    {"codigo_produto": "PROD004", "nome": "Borracha", "preco": 3.00}
+]
+
+# Lista que armazenará os produtos escolhidos pelo cliente
+carrinho_compras = []
+
+
+# Busca um produto no catálogo pelo código
+def buscar_produto_por_codigo(catalogo, codigo):
+    for produto in catalogo:
+        if produto["codigo_produto"] == codigo:
+            return produto
+    return None
+
+
+# Adiciona produtos ao carrinho
+def adicionar_ao_carrinho(
+    carrinho, catalogo, codigo_produto_adicionar,
+    quantidade_adicionar
+):
+    # Verifica se a quantidade é válida
+    if quantidade_adicionar <= 0:
+        print("Erro: a quantidade deve ser maior que zero.")
+        return
+
+    # Verifica se o produto existe no catálogo
+    produto = buscar_produto_por_codigo(
+        catalogo, codigo_produto_adicionar
+    )
+
+    if produto is None:
+        print("Erro: produto não encontrado no catálogo.")
+        return
+
+    # Verifica se o produto já está no carrinho
+    for item in carrinho:
+        if item["codigo_produto"] == codigo_produto_adicionar:
+            item["quantidade"] += quantidade_adicionar
+            print("Quantidade do produto atualizada!")
+            return
+
+    # Adiciona um novo produto ao carrinho
+    carrinho.append({
+        "codigo_produto": codigo_produto_adicionar,
+        "quantidade": quantidade_adicionar
+    })
+
+    print("Produto adicionado ao carrinho!")
+
+
+# Calcula o valor total do carrinho
+def calcular_total_carrinho(carrinho, catalogo):
+    total = 0
+
+    for item in carrinho:
+        produto = buscar_produto_por_codigo(
+            catalogo, item["codigo_produto"]
+        )
+
+        if produto is not None:
+            subtotal = produto["preco"] * item["quantidade"]
+            total += subtotal
+
+    return total
+
+
+# Exibe os produtos e seus respectivos subtotais
+def visualizar_carrinho(carrinho, catalogo):
+    print("\n========== CARRINHO DE COMPRAS ==========")
+
+    if not carrinho:
+        print("O carrinho está vazio.")
+        return
+
+    for item in carrinho:
+        produto = buscar_produto_por_codigo(
+            catalogo, item["codigo_produto"]
+        )
+
+        if produto is not None:
+            quantidade = item["quantidade"]
+            subtotal = produto["preco"] * quantidade
+
+            print(f"Produto: {produto['nome']}")
+            print(f"Código: {produto['codigo_produto']}")
+            print(f"Quantidade: {quantidade}")
+            print(f"Preço unitário: R$ {produto['preco']:.2f}")
+            print(f"Subtotal: R$ {subtotal:.2f}")
+            print("----------------------------------------")
+
+    print(f"TOTAL: R$ {calcular_total_carrinho(carrinho, catalogo):.2f}")
+    print("=========================================")
+
+
+# ==========================================
+# TESTES DO SISTEMA
+# ==========================================
+
+adicionar_ao_carrinho(carrinho_compras, catalogo_loja, "PROD001", 2)
+adicionar_ao_carrinho(carrinho_compras, catalogo_loja, "PROD002", 1)
+adicionar_ao_carrinho(carrinho_compras, catalogo_loja, "PROD001", 3)
+adicionar_ao_carrinho(carrinho_compras, catalogo_loja, "PROD003", 4)
+
+# Teste com produto inexistente
+adicionar_ao_carrinho(carrinho_compras, catalogo_loja, "PROD999", 1)
+
+# Exibe os itens e o valor total
+visualizar_carrinho(carrinho_compras, catalogo_loja)
+
+# Calcula e apresenta o total final
+total_compra = calcular_total_carrinho(
+    carrinho_compras, catalogo_loja
+)
+print(f"\nValor final da compra: R$ {total_compra:.2f}")
