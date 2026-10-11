@@ -1,0 +1,107 @@
+# =====================================================
+# SISTEMA DE ANÁLISE DE VENDAS
+# ETAPA 3 - DESEMPENHO DOS PRODUTOS
+# =====================================================
+
+# 1. Calcula a quantidade total vendida por produto
+def calcular_quantidade_vendida_por_produto(lista_registros):
+    quantidade_produtos = {}
+
+    for registro in lista_registros:
+        codigo_produto = registro[1]
+        quantidade = registro[3]
+
+        if codigo_produto in quantidade_produtos:
+            quantidade_produtos[codigo_produto] += quantidade
+        else:
+            quantidade_produtos[codigo_produto] = quantidade
+
+    return quantidade_produtos
+
+
+# 2. Identifica o produto mais vendido em quantidade
+# Em caso de empate, retorna uma lista com todos os vencedores.
+def identificar_produto_mais_vendido_em_quantidade(
+    faturamento_produto, quantidade_produto
+):
+    if not quantidade_produto:
+        return []
+
+    maior_quantidade = max(quantidade_produto.values())
+
+    produtos_mais_vendidos = []
+
+    for codigo, quantidade in quantidade_produto.items():
+        if quantidade == maior_quantidade:
+            produtos_mais_vendidos.append(
+                (codigo, quantidade)
+            )
+
+    return produtos_mais_vendidos
+
+
+# 3. Gera um relatório completo do desempenho dos produtos
+def relatorio_desempenho_produtos(lista_registros):
+    faturamento_produtos = calcular_faturamento_por_produto(
+        lista_registros
+    )
+
+    quantidade_produtos = calcular_quantidade_vendida_por_produto(
+        lista_registros
+    )
+
+    relatorio = []
+
+    for codigo in faturamento_produtos:
+        quantidade_total = quantidade_produtos[codigo]
+        faturamento_total = faturamento_produtos[codigo]
+
+        if quantidade_total > 0:
+            preco_medio = faturamento_total / quantidade_total
+        else:
+            preco_medio = 0.0
+
+        produto = {
+            "codigo_produto": codigo,
+            "quantidade_total": quantidade_total,
+            "faturamento_total": faturamento_total,
+            "preco_medio": preco_medio
+        }
+
+        relatorio.append(produto)
+
+    return relatorio
+
+
+# =====================================================
+# 4. TESTES DAS FUNÇÕES
+# =====================================================
+
+quantidade_produtos = calcular_quantidade_vendida_por_produto(
+    registros_vendas
+)
+
+faturamento_produtos = calcular_faturamento_por_produto(
+    registros_vendas
+)
+
+mais_vendidos = identificar_produto_mais_vendido_em_quantidade(
+    faturamento_produtos,
+    quantidade_produtos
+)
+
+print("===== PRODUTO(S) MAIS VENDIDO(S) =====")
+
+for codigo, quantidade in mais_vendidos:
+    print(f"Produto: {codigo} | Quantidade vendida: {quantidade}")
+
+
+print("\n===== RELATÓRIO DE DESEMPENHO DOS PRODUTOS =====")
+
+relatorio = relatorio_desempenho_produtos(registros_vendas)
+
+for produto in relatorio:
+    print(f"\nCódigo: {produto['codigo_produto']}")
+    print(f"Quantidade total: {produto['quantidade_total']} unidades")
+    print(f"Faturamento total: R$ {produto['faturamento_total']:.2f}")
+    print(f"Preço médio: R$ {produto['preco_medio']:.2f}")
