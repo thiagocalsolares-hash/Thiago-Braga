@@ -1,0 +1,67 @@
+# Sistema de análise de vendas por produto e região
+
+# 1. Lista principal com 15 registros de vendas
+# Formato: (data, codigo_produto, regiao, quantidade, valor_unitario)
+
+registros_vendas = [
+    ((2024, 5, 1), "PROD_A", "Sul", 10, 25.50),
+    ((2024, 5, 1), "PROD_B", "Norte", 5, 150.00),
+    ((2024, 5, 1), "PROD_A", "Sudeste", 7, 25.50),
+    ((2024, 5, 2), "PROD_C", "Sul", 12, 75.20),
+    ((2024, 5, 2), "PROD_B", "Sul", 3, 150.00),
+    ((2024, 5, 3), "PROD_D", "Nordeste", 8, 40.00),
+    ((2024, 5, 3), "PROD_A", "Norte", 15, 25.50),
+    ((2024, 5, 4), "PROD_C", "Sudeste", 6, 75.20),
+    ((2024, 5, 5), "PROD_E", "Centro-Oeste", 4, 200.00),
+    ((2024, 5, 6), "PROD_B", "Nordeste", 9, 150.00),
+    ((2024, 5, 7), "PROD_D", "Sul", 11, 40.00),
+    ((2024, 5, 8), "PROD_E", "Norte", 2, 200.00),
+    ((2024, 5, 9), "PROD_C", "Nordeste", 10, 75.20),
+    ((2024, 5, 10), "PROD_A", "Centro-Oeste", 5, 25.50),
+    ((2024, 5, 11), "PROD_D", "Sudeste", 7, 40.00)
+]
+
+
+# 2. Calcula o valor total de uma venda
+def calcular_valor_total_venda(registro_venda_tupla):
+    quantidade_vendida = registro_venda_tupla[3]
+    valor_unitario = registro_venda_tupla[4]
+
+    return quantidade_vendida * valor_unitario
+
+
+# 3. Calcula o faturamento total de todas as vendas
+def calcular_faturamento_total_geral(lista_registros):
+    faturamento_total = 0
+
+    for registro in lista_registros:
+        faturamento_total += calcular_valor_total_venda(registro)
+
+    return faturamento_total
+
+
+# 4. Retorna os códigos dos produtos sem repetição
+def produtos_vendidos_unicos(lista_registros):
+    produtos_unicos = []
+
+    for registro in lista_registros:
+        codigo_produto = registro[1]
+
+        if codigo_produto not in produtos_unicos:
+            produtos_unicos.append(codigo_produto)
+
+    return produtos_unicos
+
+
+# 5. Testes das funções
+print("===== RELATÓRIO DE VENDAS =====")
+
+print("\nValor total da primeira venda:")
+print(f"R$ {calcular_valor_total_venda(registros_vendas[0]):.2f}")
+
+faturamento = calcular_faturamento_total_geral(registros_vendas)
+print(f"\nFaturamento total: R$ {faturamento:.2f}")
+
+produtos = produtos_vendidos_unicos(registros_vendas)
+print("\nProdutos vendidos sem repetição:")
+print(produtos)
