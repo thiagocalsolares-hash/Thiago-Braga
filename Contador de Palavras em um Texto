@@ -1,0 +1,18 @@
+def contar_palavras(texto):
+    palavras = texto.lower().split()
+    contagem = {}
+
+    for palavra in palavras:
+        if palavra in contagem:
+            contagem[palavra] += 1
+        else:
+            contagem[palavra] = 1
+
+    return contagem
+
+
+# Exemplo de utilização
+texto = "Python é fácil e Python é interessante."
+resultado = contar_palavras(texto)
+
+print(resultado)
