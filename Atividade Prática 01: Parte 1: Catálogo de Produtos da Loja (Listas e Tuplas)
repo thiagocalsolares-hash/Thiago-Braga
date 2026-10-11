@@ -1,0 +1,108 @@
+from typing import NamedTuple
+
+
+# 1. Representação do produto
+# NamedTuple garante que o código e o nome não sejam alterados.
+class Produto(NamedTuple):
+    codigo: str
+    nome: str
+
+
+# Catálogo que armazena os produtos e seus preços.
+catalogo_loja = []
+
+
+# 2. Função para adicionar um produto
+def adicionar_produto_catalogo(catalogo, codigo, nome, preco):
+    # Verifica se o código já existe
+    if buscar_produto_por_codigo_catalogo(catalogo, codigo):
+        print("Erro: código de produto já cadastrado.")
+        return
+
+    produto = {
+        "dados": Produto(codigo, nome),
+        "preco": float(preco)
+    }
+
+    catalogo.append(produto)
+    print(f"Produto '{nome}' adicionado com sucesso!")
+
+
+# 3. Função para buscar um produto pelo código
+def buscar_produto_por_codigo_catalogo(catalogo, codigo_busca):
+    for produto in catalogo:
+        if produto["dados"].codigo == codigo_busca:
+            return produto
+
+    return None
+
+
+# 4. Função para listar todos os produtos
+def listar_todos_produtos(catalogo):
+    print("\n========== CATÁLOGO DA LOJA ==========")
+
+    if not catalogo:
+        print("Nenhum produto cadastrado.")
+        return
+
+    for produto in catalogo:
+        dados = produto["dados"]
+        preco = produto["preco"]
+
+        print(f"Código: {dados.codigo}")
+        print(f"Nome: {dados.nome}")
+        print(f"Preço: R$ {preco:.2f}".replace(".", ","))
+        print("--------------------------------------")
+
+
+# 5. Cadastro de quatro produtos
+adicionar_produto_catalogo(
+    catalogo_loja, "LIV001", "O Senhor dos Anéis", 79.90
+)
+
+adicionar_produto_catalogo(
+    catalogo_loja, "LIV002", "Harry Potter", 59.90
+)
+
+adicionar_produto_catalogo(
+    catalogo_loja, "LIV003", "Dom Casmurro", 29.90
+)
+
+adicionar_produto_catalogo(
+    catalogo_loja, "LIV004", "O Pequeno Príncipe", 39.90
+)
+
+
+# 6. Teste: adicionar um novo produto
+adicionar_produto_catalogo(
+    catalogo_loja, "LIV005", "A Revolução dos Bichos", 34.90
+)
+
+
+# 7. Teste: listar todos os produtos
+listar_todos_produtos(catalogo_loja)
+
+
+# 8. Teste: buscar um produto existente
+print("\n--- Busca de produto existente ---")
+resultado = buscar_produto_por_codigo_catalogo(
+    catalogo_loja, "LIV001"
+)
+
+if resultado is not None:
+    print("Produto encontrado:", resultado["dados"].nome)
+    print(f"Preço: R$ {resultado['preco']:.2f}".replace(".", ","))
+else:
+    print("Produto não encontrado.")
+
+
+# 9. Teste: buscar um produto inexistente
+print("\n--- Busca de produto inexistente ---")
+resultado = buscar_produto_por_codigo_catalogo(
+    catalogo_loja, "LIV999"
+)
+
+if resultado is not None:
+    print("Produto encontrado:", resultado["dados"].nome)
+else:
+    print("Produto não encontrado.")
