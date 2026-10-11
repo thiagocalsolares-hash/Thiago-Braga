@@ -1,0 +1,73 @@
+# Dicionário para armazenar os dados dos clientes
+dados_clientes = {}
+
+
+# 1. Função para registrar um novo cliente
+def registrar_cliente(clientes, id_cliente, nome_cliente):
+    if id_cliente in clientes:
+        print(f"Erro: O ID {id_cliente} já está cadastrado.")
+    else:
+        clientes[id_cliente] = {
+            "nome": nome_cliente,
+            "historico_loc": []
+        }
+        print(f"Cliente {nome_cliente} cadastrado com sucesso!")
+
+
+# 2. Função para adicionar uma localização ao cliente
+def adicionar_localizacao_cliente(clientes, id_cliente, latitude, longitude):
+    if id_cliente in clientes:
+        coordenada = (latitude, longitude)
+        clientes[id_cliente]["historico_loc"].append(coordenada)
+        print(f"Localização adicionada ao cliente {id_cliente}.")
+    else:
+        print(f"Erro: Cliente com ID {id_cliente} não encontrado.")
+
+
+# 3. Função para obter a última localização do cliente
+def obter_ultima_localizacao(clientes, id_cliente):
+    if id_cliente in clientes:
+        historico = clientes[id_cliente]["historico_loc"]
+
+        if historico:
+            return historico[-1]
+
+    return None
+
+
+# 4. Testes das funções
+
+# Cadastro de clientes
+registrar_cliente(dados_clientes, 1, "Ana Silva")
+registrar_cliente(dados_clientes, 2, "Carlos Souza")
+registrar_cliente(dados_clientes, 3, "Maria Oliveira")
+
+# Teste de cadastro com ID repetido
+registrar_cliente(dados_clientes, 1, "João Santos")
+
+# Adição de localizações
+adicionar_localizacao_cliente(
+    dados_clientes, 1, -23.5505, -46.6333
+)
+adicionar_localizacao_cliente(
+    dados_clientes, 1, -22.9068, -43.1729
+)
+adicionar_localizacao_cliente(
+    dados_clientes, 2, -15.7939, -47.8828
+)
+
+# Consulta da última localização
+ultima = obter_ultima_localizacao(dados_clientes, 1)
+print("Última localização da cliente Ana:", ultima)
+
+# Consulta de cliente sem histórico
+print("Localização de Maria:",
+      obter_ultima_localizacao(dados_clientes, 3))
+
+# Consulta de cliente inexistente
+print("Localização do cliente 99:",
+      obter_ultima_localizacao(dados_clientes, 99))
+
+# Exibição dos dados armazenados
+print("\nDados completos dos clientes:")
+print(dados_clientes)
