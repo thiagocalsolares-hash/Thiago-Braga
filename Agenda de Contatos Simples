@@ -1,0 +1,42 @@
+# Dicionário para armazenar os contatos
+contatos = {
+    "Ana": "21987654321",
+    "Carlos": "21912345678",
+    "Maria": "21955554444"
+}
+
+# Função para adicionar um novo contato
+def adicionar_contato(nome, telefone):
+    if nome in contatos:
+        print("Esse contato já está cadastrado.")
+    else:
+        contatos[nome] = telefone
+        print(f"Contato {nome} adicionado com sucesso.")
+
+# Função para remover um contato
+def remover_contato(nome):
+    if nome in contatos:
+        del contatos[nome]
+        print(f"Contato {nome} removido com sucesso.")
+    else:
+        print("Contato não encontrado.")
+
+# Função para buscar o telefone pelo nome
+def buscar_telefone(nome):
+    if nome in contatos:
+        return contatos[nome]
+    else:
+        return "Contato não encontrado."
+
+# Exemplos de utilização
+adicionar_contato("João", "21999998888")
+
+remover_contato("Carlos")
+
+telefone = buscar_telefone("Ana")
+print("Telefone de Ana:", telefone)
+
+# Exibir todos os contatos cadastrados
+print("\nLista de contatos:")
+for nome, telefone in contatos.items():
+    print(f"Nome: {nome} | Telefone: {telefone}")
