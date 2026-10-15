@@ -1,0 +1,36 @@
+def buscar_telefone(lista_telefonica, nome):
+    inicio = 0
+    fim = len(lista_telefonica) - 1
+
+    while inicio <= fim:
+        meio = (inicio + fim) // 2
+        nome_meio = lista_telefonica[meio][0]
+
+        if nome_meio.lower() == nome.lower():
+            return lista_telefonica[meio][1]
+
+        elif nome.lower() < nome_meio.lower():
+            fim = meio - 1
+
+        else:
+            inicio = meio + 1
+
+    return "Telefone não encontrado."
+
+
+# Lista telefônica ordenada por nome
+lista_telefonica = [
+    ("Ana", "1111-1111"),
+    ("Bruno", "2222-2222"),
+    ("Carlos", "3333-3333"),
+    ("Daniela", "4444-4444"),
+    ("Eduardo", "5555-5555"),
+    ("Fernanda", "6666-6666")
+]
+
+# Exemplo de utilização
+nome_procurado = "Carlos"
+
+telefone = buscar_telefone(lista_telefonica, nome_procurado)
+
+print(f"Telefone de {nome_procurado}: {telefone}")
