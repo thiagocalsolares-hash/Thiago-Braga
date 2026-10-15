@@ -1,0 +1,18 @@
+def buscar_indices(lista, chave):
+    indices = []
+
+    for i in range(len(lista)):
+        if lista[i] == chave:
+            indices.append(i)
+
+    return indices
+
+
+# Exemplo de utilização
+numeros = [10, 20, 30, 20, 40, 20]
+
+resultado = buscar_indices(numeros, 20)
+print(resultado)  
+
+resultado = buscar_indices(numeros, 50)
+print(resultado)  
