@@ -1,0 +1,25 @@
+def busca_binaria_iterativa(lista, elemento):
+    inicio = 0
+    fim = len(lista) - 1
+
+    while inicio <= fim:
+        meio = (inicio + fim) // 2
+
+        if lista[meio] == elemento:
+            return meio
+        elif lista[meio] < elemento:
+            inicio = meio + 1
+        else:
+            fim = meio - 1
+
+    return -1
+
+
+# Exemplo de utilização
+numeros = [2, 5, 8, 12, 16, 23, 38, 45, 56]
+resultado = busca_binaria_iterativa(numeros, 23)
+
+if resultado != -1:
+    print("Elemento encontrado na posição:", resultado)
+else:
+    print("Elemento não encontrado.")
