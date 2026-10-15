@@ -1,0 +1,37 @@
+# Lista de numeros
+numero = ["3", "6", "10", "67", "34"]
+chave_numero = "34"
+encontrado_numero = False
+posicao_encontrada_numero = -1 # Usamos -1 para indicar que ainda não foi encontrado
+
+# Lista de nomes
+nomes = ["Maria", "Ana", "Joelma", "Marcia", "Jones"]
+chave_nome = "Jones"
+encontrado_nome = False
+posicao_encontrada_nome = -1 # Usamos -1 para indicar que ainda não foi encontrado
+
+# Percorrendo a lista de números
+for i in range(len(numero)):
+  if numero[i] == chave_numero:
+    encontrado_numero = True
+    posicao_encontrada_numero = i
+    break # Para a busca assim que encontrar
+
+# Percorrendo a lista de nomes
+for i in range(len(nomes)):
+  if nomes[i] == chave_nome:
+    encontrado_nome = True
+    posicao_encontrada_nome = i
+    break # Para a busca assim que encontrar
+
+# Verificando o resultado do número
+if encontrado_numero:
+  print(f"O numero '{chave_numero}' foi encontrado na posição {posicao_encontrada_numero}.")
+else:
+  print(f"O numero '{chave_numero}' não foi encontrado na lista.")
+
+# Verificando o resultado do nome
+if encontrado_nome:
+  print(f"O nome '{chave_nome}' foi encontrado na posição {posicao_encontrada_nome}.")
+else:
+  print(f"O nome '{chave_nome}' não foi encontrado na lista.")
