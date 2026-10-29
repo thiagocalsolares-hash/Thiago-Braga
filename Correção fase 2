@@ -1,0 +1,12 @@
+Qual das seguintes chamadas à função processar_dados é INVÁLIDA ou causaria um erro? processar_dados(lista_valores=[1, 2, 3, 4], metodo="soma", arredondar=True) processar_dados(lista_valores=[10, 20, 30], metodo="produto", casas=1) processar_dados(lista_valores=[7, 8, 9], metodo="outracoisa") processar_dados(lista_valores=[10, 20, 30]) processar_dados(lista_valores=[5, 10, 15], metodo="media", opcoes={"arredondar": True, "casas": 1})
+Para identificar qual das chamadas é inválida ou causaria um erro, vamos analisar e testar a execução de cada uma delas no notebook.
+
+Nenhuma das chamadas gera um erro de execução (todas executaram com sucesso e retornaram um resultado, conforme testado no notebook).
+
+No entanto, a chamada processar_dados(lista_valores=[5, 10, 15], metodo="media", opcoes={"arredondar": True, "casas": 1}) é conceitualmente inválida/incorreta no que diz respeito ao funcionamento do argumento **opcoes em Python.
+
+Explicação:
+A assinatura possui **opcoes, que espera que os parâmetros adicionais sejam passados diretamente como chaves nomeadas (ex: arredondar=True, casas=1).
+Ao passar explicitamente opcoes={"arredondar": True, "casas": 1}, o dicionário interno opcoes da função passa a conter a estrutura {'opcoes': {'arredondar': True, 'casas': 1}}.
+Consequentemente, a verificação opcoes.get("arredondar") busca a chave diretamente no primeiro nível e retorna None (pois a chave existente é 'opcoes', e não 'arredondar'), fazendo com que o arredondamento seja ignorado silenciosamente.
+Por isso, embora não lance uma exceção em tempo de execução, essa chamada é logicamente inválida para o propósito do código.
